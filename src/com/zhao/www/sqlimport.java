@@ -59,12 +59,6 @@ public class sqlimport {
 
 	}
 
-	
-	
-	
-	
-	
-	
 	public static void main(String[] args) {
 		String driver = "com.mysql.jdbc.Driver"; // 驱动包名称
 		// 原数据库相关
@@ -100,8 +94,9 @@ public class sqlimport {
 				System.out.println("新数据库连接失败！");
 			}
 			stmt = conn.createStatement();
+			stmt1 = conn1.createStatement();
 
-			huoqushujukubiao(conn);
+			// huoqushujukubiao(conn);
 
 			// String sql = "CREATE TABLE REGISTRATION (id INTEGER not NULL, " +
 			// " first VARCHAR(255), " +
@@ -122,7 +117,7 @@ public class sqlimport {
 
 				// 提取表的名字
 				while (tableRet.next()) {
-					sql = "create table " + tableRet.getString("TABLE_NAME") + "(";
+					sql = "create table if not exists " + tableRet.getString("TABLE_NAME") + "(";
 					// 提取表内的字段的名字和类型
 					// JDBC里面通过getColumns的接口，实现对字段的查询。跟getTables一样，"%"表示所有任意的（字段），而m_TableName就是数据表的名字。
 					// getColumns的返回也是将所有的字段放到一个类似的内存中的表，而COLUMN_NAME就是字段的名字，TYPE_NAME就是数据类型，
@@ -133,15 +128,49 @@ public class sqlimport {
 					String columnType;
 					ResultSet colRet = dbmata.getColumns(null, "%", tableRet.getString("TABLE_NAME"), "%");
 					while (colRet.next()) {
-						columnName = colRet.getString("COLUMN_NAME");
-						columnType = colRet.getString("TYPE_NAME");
-						int datasize = colRet.getInt("COLUMN_SIZE");
-						int digits = colRet.getInt("DECIMAL_DIGITS");
-						int nullable = colRet.getInt("NULLABLE");
+						int column_size = colRet.getInt("COLUMN_SIZE");
+						String type_name = colRet.getString("TYPE_NAME");
+						String nullable = "null";
+						// 将tinyint转换成int
+//						if (colRet.getString("TYPE_NAME").equalsIgnoreCase("tinyint")) {
+//							type_name = "int";
+//							System.out.println(tableRet.getString("TABLE_NAME") + "-------" + colRet.getString("COLUMN_NAME"));
+//						}
+						if (colRet.getString("TYPE_NAME").equalsIgnoreCase("int")) {
+							column_size = colRet.getInt("COLUMN_SIZE") + 1;
+						} else if (colRet.getString("TYPE_NAME").equalsIgnoreCase("longtext")) {
+							column_size = 0;
+						} else if (colRet.getString("TYPE_NAME").equalsIgnoreCase("mediumtext")) {
+							column_size = 0;
+						}else if (colRet.getString("TYPE_NAME").equalsIgnoreCase("enum")) {
+							column_size = 10000;
+						}
 
-						System.out.println(
-								columnName + "\t" + columnType + "\t" + datasize + "\t" + digits + "\t" + nullable);
+						
+						
+						if (colRet.getInt("NULLABLE") == 0) {
+							nullable = "not null";
+						}
+						sql = sql + colRet.getString("COLUMN_NAME") + " " + type_name;
+						if(column_size == 10000){
+							sql = sql + "('Y','N') "	+ nullable + ",";
+						}else if(column_size == 0){
+							sql = sql + " " + nullable + ",";
+						}else{
+							sql = sql + "(" +  column_size + ") "	+ nullable + ",";
+						}
+						
+						// columnName = colRet.getString("COLUMN_NAME");
+						// columnType = colRet.getString("TYPE_NAME");
+						// int datasize = colRet.getInt("COLUMN_SIZE");
+						// int digits = colRet.getInt("DECIMAL_DIGITS");
+						// int nullable = colRet.getInt("NULLABLE");
 					}
+					int b = sql.lastIndexOf(",");
+					sql = sql.substring(0, b);
+					sql = sql + ");";
+					System.out.println(sql);
+					stmt1.executeUpdate(sql);
 				}
 
 			} catch (SQLException e) {
@@ -153,7 +182,7 @@ public class sqlimport {
 			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
-			
+
 		}
 	}
 }
