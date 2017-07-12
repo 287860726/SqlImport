@@ -7,6 +7,7 @@ package com.zhao.util;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -15,7 +16,7 @@ import java.sql.SQLException;
  * @data 2017年7月12日
  * @time 下午9:00:50
  */
-public class huoqubiaoxinxi extends Base{
+public class huoqubiaoxinxi extends Base {
 	/**
 	 * 获取数据库中标的信息
 	 * 
@@ -23,7 +24,26 @@ public class huoqubiaoxinxi extends Base{
 	 * @date 2017年7月10日
 	 * @param conn
 	 */
-	public void huoqushujukubiao(Connection conn) {
+	public void huoqushujukubiao(String dataurl, String user, String pwd) {
+		this.url = dataurl;
+		this.user = user;
+		this.pwd = pwd;
+		// 遍历查询结果集
+		try {
+			Class.forName(driver);
+			conn = (Connection) DriverManager.getConnection(url, user, pwd);
+			if (!conn.isClosed()) {
+				System.out.println("数据库连接成功！");
+			} else {
+
+				System.out.println("数据库连接失败！");
+			}
+			stmt = conn.createStatement();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("连接异常，检查填写数据是否有误！");
+		}
 		// 获取表信息
 		DatabaseMetaData dbmata;
 		try {

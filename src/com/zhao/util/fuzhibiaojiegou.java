@@ -14,7 +14,8 @@ import java.sql.Statement;
  */
 public class fuzhibiaojiegou extends Base {
 
-	public void fuzhubiao(String ydataurl,String yuser,String ypwd,String newdataurl,String newuser,String newpwd) {
+	public void fuzhubiao(String ydataurl, String yuser, String ypwd, String newdataurl, String newuser,
+			String newpwd) {
 		this.url = ydataurl;
 		this.user = yuser;
 		this.pwd = ypwd;
@@ -22,11 +23,10 @@ public class fuzhibiaojiegou extends Base {
 		this.user1 = newuser;
 		this.pwd1 = newpwd;
 
-		
 		getconnection();
+		
 		String sql = "";
 		try {
-			dbmata = conn.getMetaData();
 			//
 			// 其中"%"就是表示*的意思，也就是任意所有的意思。其中m_TableName就是要获取的数据表的名字，如果想获取所有的表的名字，就可以使用"%"来作为参数了。
 			// ResultSet tableRet = m_DBMetaData.getTables(null, "%",

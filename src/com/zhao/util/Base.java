@@ -24,6 +24,7 @@ public class Base {
 	protected String user = ""; // 数据库用户名
 	protected String pwd = ""; // 数据库密码
 	protected Statement stmt = null;
+	protected DatabaseMetaData dbmata = null;
 
 	// 新数据库相关
 	protected Connection conn1 = null; // 声明connection对象
@@ -31,7 +32,15 @@ public class Base {
 	protected String user1 = ""; // 数据库用户名
 	protected String pwd1 = ""; // 数据库密码
 	protected Statement stmt1 = null;
-	protected DatabaseMetaData dbmata = null;
+	protected DatabaseMetaData dbmata1 = null;
+
+	public DatabaseMetaData getDbmata1() {
+		return dbmata1;
+	}
+
+	public void setDbmata1(DatabaseMetaData dbmata1) {
+		this.dbmata1 = dbmata1;
+	}
 
 	public DatabaseMetaData getDbmata() {
 		return dbmata;
@@ -150,7 +159,8 @@ public class Base {
 			}
 			stmt = conn.createStatement();
 			stmt1 = conn1.createStatement();
-
+			dbmata = conn.getMetaData();
+			dbmata1 = conn1.getMetaData();
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("连接异常，检查填写数据是否有误！");
