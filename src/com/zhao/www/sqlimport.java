@@ -1,25 +1,24 @@
 package com.zhao.www;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import com.zhao.util.fuzhibiaojiegou;
-import com.zhao.util.huoqubiaoxinxi;
-import com.zhao.util.quickimport;
+import com.zhao.util.ImportData;
+import com.zhao.util.QuickImport;
 
 public class sqlimport {
 
 	public static void main(String[] args) {
-		long a = System.currentTimeMillis();
-		quickimport qi = new quickimport();
-		qi.qimport("jdbc:mysql://localhost:3306/jzsoft", "jzsoft", "root", "123456",
-				"jdbc:mysql://localhost:3306/test1", "test1", "root", "123456");
-		long b = System.currentTimeMillis();
-		System.out.println("数据库导入完成,用时：" + (b - a) + "毫秒。");
+
+		//表结构不同，但是原来表没有的字段必须有默认值
+		ImportData id = new ImportData();
+		id.importdate("jdbc:mysql://localhost:3306/cesh", "cesh", "root", "123456", "jdbc:mysql://localhost:3306/test1",
+				"test1", "root", "123456");
+
+		// 快速导入表结构以及表数据
+//		long a = System.currentTimeMillis();
+//		QuickImport qi = new QuickImport();
+//		qi.qimport("jdbc:mysql://localhost:3306/jzsoft", "jzsoft", "root", "123456",
+//				"jdbc:mysql://localhost:3306/test1", "test1", "root", "123456");
+//		long b = System.currentTimeMillis();
+//		System.out.println("数据库导入完成,用时：" + (b - a) + "毫秒。");
 
 		// 复制表结构
 		// fuzhibiaojiegou fz = new fuzhibiaojiegou();

@@ -12,8 +12,9 @@ import java.sql.SQLException;
  * @author zhaocm
  * @data 2017年7月12日
  * @time 下午10:21:42
+ * 表结构完全相同
  */
-public class quickimport extends Base {
+public class QuickImport extends Base {
 
 	public void qimport(String ydataurl, String ydataname, String yuser, String ypwd, String newdataurl,
 			String newdataname, String newuser, String newpwd) {
@@ -41,7 +42,7 @@ public class quickimport extends Base {
 				stmt1.executeUpdate(sql);
 				System.out.println(sql1);
 				try {
-					stmt1.executeUpdate(sql1);
+//					stmt1.executeUpdate(sql1);
 				} catch (Exception e) {
 					// TODO: handle exception
 					System.out.println("数据重复！");

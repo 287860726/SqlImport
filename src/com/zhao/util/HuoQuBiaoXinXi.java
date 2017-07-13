@@ -16,7 +16,7 @@ import java.sql.SQLException;
  * @data 2017年7月12日
  * @time 下午9:00:50
  */
-public class huoqubiaoxinxi extends Base {
+public class HuoQuBiaoXinXi extends Base {
 	/**
 	 * 获取数据库中标的信息
 	 * 
