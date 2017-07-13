@@ -12,7 +12,7 @@ import java.sql.Statement;
  * @data 2017年7月12日
  * @time 下午9:02:32
  */
-public class fuzhibiaojiegou extends Base {
+public class FuZhiBiaoJieGou extends Base {
 
 	public void fuzhubiao(String ydataurl, String yuser, String ypwd, String newdataurl, String newuser,
 			String newpwd) {
